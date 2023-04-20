@@ -39,11 +39,35 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="posts-widget">
-      {posts.map((post) => (
-        <PostWidget key={post.id} post={post} isProfile={isProfile} />
-      ))}
-    </div>
+    <>
+      {posts.map(
+        ({
+          _id,
+          userId,
+          firstName,
+          lastName,
+          description,
+          location,
+          picturePath,
+          userPicturePath,
+          likes,
+          comments,
+        }) => (
+          <PostWidget
+            key={_id}
+            postId={_id}
+            postUserId={userId}
+            name={`${firstName} ${lastName}`}
+            description={description}
+            location={location}
+            picturePath={picturePath}
+            userPicturePath={userPicturePath}
+            likes={likes}
+            comments={comments}
+          />
+        )
+      )}
+    </>
   );
 };
 
