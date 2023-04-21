@@ -25,9 +25,7 @@ const UserWidget = ({ userId, picturePath }) => {
   const getUser = async () => {
     const response = await fetch(`http://localhost:3001/users/${userId}`, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
     setUser(data);
@@ -37,7 +35,9 @@ const UserWidget = ({ userId, picturePath }) => {
     getUser();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!user) return null;
+  if (!user) {
+    return null;
+  }
 
   const {
     firstName,
@@ -115,9 +115,10 @@ const UserWidget = ({ userId, picturePath }) => {
 
       {/* FOURTH ROW */}
       <Box p="1rem 0">
-        <Typography fontSize="1rem" fontWeight="500" mb="1rem" color={main}>
+        <Typography fontSize="1rem" color={main} fontWeight="500" mb="1rem">
           Social Profiles
         </Typography>
+
         <FlexBetween gap="1rem" mb="0.5rem">
           <FlexBetween gap="1rem">
             <img src="../assets/twitter.png" alt="twitter" />

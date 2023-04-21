@@ -1,6 +1,6 @@
 import {
   EditOutlined,
-  Deleteoutlined,
+  DeleteOutlined,
   AttachFileOutlined,
   GifBoxOutlined,
   ImageOutlined,
@@ -106,7 +106,7 @@ const MyPostWidget = ({ picturePath }) => {
                     onClick={() => setImage(null)}
                     sx={{ width: "15%" }}
                   >
-                    <Deleteoutlined />
+                    <DeleteOutlined />
                   </IconButton>
                 )}
               </FlexBetween>
@@ -118,7 +118,7 @@ const MyPostWidget = ({ picturePath }) => {
       <Divider sx={{ margin: "1.25rem 0" }} />
 
       <FlexBetween>
-        <FlexBetween gap="0.25rem" onClick={() => setImage(!isImage)}>
+        <FlexBetween gap="0.25rem" onClick={() => setIsImage(!isImage)}>
           <ImageOutlined sx={{ color: mediumMain }} />
           <Typography
             color={mediumMain}

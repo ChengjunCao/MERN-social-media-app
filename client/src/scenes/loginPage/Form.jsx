@@ -3,8 +3,8 @@ import {
   Box,
   Button,
   TextField,
-  Typography,
   useMediaQuery,
+  Typography,
   useTheme,
 } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -51,7 +51,7 @@ const Form = () => {
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
+  const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
 
@@ -71,7 +71,6 @@ const Form = () => {
       }
     );
     const savedUser = await savedUserResponse.json();
-
     onSubmitProps.resetForm();
 
     if (savedUser) {
@@ -80,24 +79,22 @@ const Form = () => {
   };
 
   const login = async (values, onSubmitProps) => {
-    const loggedInUserResponse = await fetch(
-      "http://localhost:3001/auth/login",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      }
-    );
-    const loggedInUser = await loggedInUserResponse.json();
-
+    const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
+    const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
-
-    if (loggedInUser) {
+    if (loggedIn) {
       dispatch(
-        setLogin({ user: loggedInUser.user, token: loggedInUser.token })
+        setLogin({
+          user: loggedIn.user,
+          token: loggedIn.token,
+        })
       );
+      navigate("/home");
     }
-    navigate("/home");
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
@@ -125,11 +122,9 @@ const Form = () => {
           <Box
             display="grid"
             gap="30px"
-            gridTemplateColumns="repeat(4, minmax(o,1fr))"
+            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
             sx={{
-              "& > div": {
-                gridColumn: isNonMobileScreens ? undefined : "span 4",
-              },
+              "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
             }}
           >
             {isRegister && (
@@ -188,7 +183,7 @@ const Form = () => {
                     acceptedFiles=".jpg,.jpeg,.png"
                     multiple={false}
                     onDrop={(acceptedFiles) =>
-                      setFieldValue("picutre", acceptedFiles[0])
+                      setFieldValue("picture", acceptedFiles[0])
                     }
                   >
                     {({ getRootProps, getInputProps }) => (
@@ -199,7 +194,7 @@ const Form = () => {
                         sx={{ "&:hover": { cursor: "pointer" } }}
                       >
                         <input {...getInputProps()} />
-                        {!values.picure ? (
+                        {!values.picture ? (
                           <p>Add Picture Here</p>
                         ) : (
                           <FlexBetween>
@@ -260,7 +255,10 @@ const Form = () => {
               sx={{
                 textDecoration: "underline",
                 color: palette.primary.main,
-                "&:hover": { cursor: "pointer", color: palette.primary.light },
+                "&:hover": {
+                  cursor: "pointer",
+                  color: palette.primary.light,
+                },
               }}
             >
               {isLogin
